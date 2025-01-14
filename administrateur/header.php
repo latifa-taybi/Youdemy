@@ -10,7 +10,7 @@
 <body class="bg-blue-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <aside class="bg-gray-800 text-white w-72 transition-transform transform -translate-x-72 lg:translate-x-0 lg:static fixed h-screen z-30 shadow-2xl" id="sidebar">
+        <aside class="bg-gray-800 text-white w-72 transition-transform transform -translate-x-72 lg:translate-x-0 lg:static fixed h- z-30 shadow-2xl" id="sidebar">
             <div class="p-6 flex justify-between items-center border-b border-gray-700">
                 <h2 class="text-2xl font-bold">Admin Panel</h2>
                 <button class="lg:hidden text-white text-2xl" id="close-sidebar">
@@ -44,9 +44,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center py-3 px-6 hover:bg-gray-700 rounded transition-all">
-                            <i class="fas fa-cogs mr-3"></i>
-                            <span>paramétres</span>
+                        <a href="./categories.php" class="flex items-center py-3 px-6 hover:bg-gray-700 rounded transition-all">
+                            <i class="fa-solid fa-layer-group mr-3"></i>
+                            <span>Catégories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./tags.php" class="flex items-center py-3 px-6 hover:bg-gray-700 rounded transition-all">
+                            <i class="fa-solid fa-tag mr-3"></i>
+                            <span>Tags</span>
                         </a>
                     </li>
                 </ul>

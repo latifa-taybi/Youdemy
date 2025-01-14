@@ -28,7 +28,7 @@ include './header.php';
                 </div>
                 <div class="bg-white shadow-lg rounded-lg p-6 transform hover:scale-105 transition duration-300">
                     <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-medium">Revenue</h2>
+                        <h2 class="text-lg font-medium">Enseignants</h2>
                         <i class="fa-solid fa-chalkboard-user text-3xl text-orange-500"></i>
                     </div>
                     <p class="text-4xl font-bold mt-4">0</p>

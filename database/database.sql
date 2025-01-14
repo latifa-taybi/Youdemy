@@ -12,7 +12,8 @@ CREATE TABLE Utilisateur (
 
 CREATE TABLE Categorie (
     id_categorie INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL
+    nom VARCHAR(100) NOT NULL,
+    description VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Cours (
