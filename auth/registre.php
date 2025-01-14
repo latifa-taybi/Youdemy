@@ -8,7 +8,7 @@ if(isset($_POST['registre'])){
     $role = $_POST['role'];
 
     $db=new database();
-    $pdo=$db->getConn($pdo);
+    $pdo=$db->getConn();
 
     $motDePasse_hash = password_hash($motDePasse, PASSWORD_BCRYPT);
     $stmt = $pdo->prepare("INSERT INTO utilisateur(nom, email, mot_de_passe,role)VALUES(:nom, :email, :mot_de_passe, :role)");

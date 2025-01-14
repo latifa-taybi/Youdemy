@@ -8,7 +8,7 @@ if(isset($_POST['login'])){
     $password = $_POST['password'];
 
     $db = new database();
-    $pdo = $db->getConn($pdo);
+    $pdo = $db->getConn();
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email=:email");
     $stmt->execute([
