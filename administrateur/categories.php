@@ -1,6 +1,16 @@
 <?php
 include './header.php';
+include '../database/config.php';
+include '../classes/Categorie.php';
 
+$categorie = new Categorie($pdo);
+
+if (isset($_POST['addCategory'])) {
+    $nomCat = $_POST['categoryName'];
+    $descCat = $_POST['categoryDescription'];
+    $categorie->addCategorie($nomCat, $descCat);
+
+}
 
 ?>
 
@@ -38,7 +48,7 @@ include './header.php';
 
             <!-- Bouton Ajouter -->
             <button
-                type="button"
+                type="submit"
                 id="addCategory"
                 name="addCategory"
                 class="w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition">
@@ -53,20 +63,9 @@ include './header.php';
         <h2 class="text-3xl font-semibold text-gray-800 mb-6">Liste des Catégories</h2>
         <ul id="categoryList" class="space-y-4">
             <!-- Les catégories seront ajoutées ici dynamiquement -->
-            <li class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                <div>
-                    <h3 class="font-semibold text-gray-800">Nom de la Catégorie</h3>
-                    <p class="text-gray-500 text-sm">Description de la catégorie...</p>
-                </div>
-                <div class="flex space-x-4">
-                    <button class="text-blue-500 hover:text-blue-700 font-small flex items-center space-x-2 transition-transform hover:scale-105">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button class="text-red-500 hover:text-red-700 font-small flex items-center space-x-2 transition-transform hover:scale-105">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </div>
-            </li>
+            <?php
+            $categorie->displayCategorie();
+            ?>
         </ul>
     </div>
 </main>

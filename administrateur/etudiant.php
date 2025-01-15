@@ -4,9 +4,6 @@ include './header.php';
 include '../database/config.php';
 include '../classes/Utilisateur.php';
 
-$db = new database();
-$pdo = $db->getConn();
-
 $Etudiant = new Utilisateur($pdo);
 ?>
 
