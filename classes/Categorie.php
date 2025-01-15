@@ -27,5 +27,7 @@ class Categorie{
         ]);
         return $stmt->fetch();
     }
+
+    
 }
 ?>

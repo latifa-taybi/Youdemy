@@ -8,10 +8,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-gray-900">
+<body class="bg-gradient-to-br from-indigo-500 to-purple-600 text-gray-900 p-5">
   <div class="container mx-auto py-8">
     <!-- Header -->
-    <header class="mb-8 text-center">
+    <header class="mb-8 text-center ">
       <h1 class="text-4xl font-extrabold text-white drop-shadow-lg">📚 Gestion des Cours</h1>
       <p class="text-lg text-gray-200 mt-2">Ajoutez, gérez et suivez vos cours facilement !</p>
     </header>
@@ -33,8 +33,12 @@
           <input type="file" id="content" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
         </div>
         <div>
-          <label for="tags" class="block text-gray-700 font-semibold">Tags</label>
-          <input type="text" id="tags" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" placeholder="Ex: Développement, Design">
+          <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
+          <select id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
+            <option>Développement</option>
+            <option>Design</option>
+            <option>Marketing</option>
+          </select>
         </div>
         <div>
           <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
@@ -83,11 +87,11 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
         <div class="bg-gradient-to-r from-blue-500 to-green-500 text-white p-6 rounded-lg shadow-lg">
           <p class="text-lg font-semibold">Étudiants Inscrits</p>
-          <p class="text-4xl font-bold">120</p>
+          <p class="text-4xl font-bold">0</p>
         </div>
-        <div class="bg-gradient-to-r from-pink-500 to-red-500 text-white p-6 rounded-lg shadow-lg">
+        <div class="bg-gradient-to-r from-purple-500 to-blue-500 text-white p-6 rounded-lg shadow-lg">
           <p class="text-lg font-semibold">Nombre de Cours</p>
-          <p class="text-4xl font-bold">10</p>
+          <p class="text-4xl font-bold">0</p>
         </div>
         <!-- Ajoutez d'autres statistiques ici -->
       </div>

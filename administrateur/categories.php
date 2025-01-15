@@ -1,5 +1,7 @@
 <?php
 include './header.php';
+
+
 ?>
 
 <main class="flex-1 p-8 container mx-auto space-y-8">
@@ -11,7 +13,7 @@ include './header.php';
     <!-- Ajouter une catégorie -->
     <div class="bg-white shadow-lg rounded-xl p-8">
         <h2 class="text-3xl font-semibold text-gray-800 mb-6">Ajouter une Catégorie</h2>
-        <form id="categoryForm" class="space-y-6">
+        <form method="post" action="" id="categoryForm" class="space-y-6">
             <!-- Nom de la catégorie -->
             <div class="relative group">
                 <label for="categoryName" class="block text-sm font-medium text-gray-700">Nom de la catégorie</label>
@@ -38,6 +40,7 @@ include './header.php';
             <button
                 type="button"
                 id="addCategory"
+                name="addCategory"
                 class="w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition">
                 <i class="fas fa-plus-circle mr-2"></i>
                 Ajouter une Catégorie
