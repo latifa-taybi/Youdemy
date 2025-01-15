@@ -19,7 +19,7 @@
     <!-- Section: Ajout de cours -->
     <section class="bg-white p-8 rounded-xl shadow-lg mb-12">
       <h2 class="text-2xl font-bold text-purple-700 mb-4">Ajouter un Nouveau Cours</h2>
-      <form class="space-y-4">
+      <form method="post" action="" class="space-y-4">
         <div>
           <label for="title" class="block text-gray-700 font-semibold">Titre</label>
           <input type="text" id="title" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" placeholder="Titre du cours" required>

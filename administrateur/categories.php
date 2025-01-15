@@ -4,12 +4,23 @@ include '../database/config.php';
 include '../classes/Categorie.php';
 
 $categorie = new Categorie($pdo);
-
+// --Ajouter des Categories
 if (isset($_POST['addCategory'])) {
     $nomCat = $_POST['categoryName'];
     $descCat = $_POST['categoryDescription'];
     $categorie->addCategorie($nomCat, $descCat);
+}
 
+// --Modifier les Categories
+if (isset($_GET['id'])) {
+    $categorieEdit=$categorie->getCategorieId($_GET['id']);
+}
+
+if(isset($_POST['editCategory'])){
+    $nomCat = $_POST['categoryName'];
+    $descCat = $_POST['categoryDescription'];
+    $categorie->EditCategorie($_GET['id'], $nomCat, $descCat);
+    header('location: categories.php');
 }
 
 ?>
@@ -31,6 +42,7 @@ if (isset($_POST['addCategory'])) {
                     type="text"
                     id="categoryName"
                     name="categoryName"
+                    value="<?php if(isset($categorieEdit)){ echo $categorieEdit['nom'] ;}?>"
                     class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     placeholder="Entrez le nom de la catégorie">
             </div>
@@ -38,23 +50,29 @@ if (isset($_POST['addCategory'])) {
             <!-- Description de la catégorie -->
             <div class="relative group">
                 <label for="categoryDescription" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea
+                <input
                     id="categoryDescription"
                     name="categoryDescription"
+                    value="<?php if(isset($categorieEdit)){ echo $categorieEdit['description'] ;}?>"
                     class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     rows="4"
-                    placeholder="Entrez une description pour la catégorie"></textarea>
+                    placeholder="Entrez une description pour la catégorie">
             </div>
 
             <!-- Bouton Ajouter -->
-            <button
-                type="submit"
-                id="addCategory"
-                name="addCategory"
-                class="w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition">
-                <i class="fas fa-plus-circle mr-2"></i>
-                Ajouter une Catégorie
-            </button>
+             <?php
+                if(isset($_GET['id'])){
+                    echo "<button type='submit' id='editCategory' name='editCategory' class='w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition'>
+                        <i class='fas fa-plus-circle mr-2'></i>
+                        Modifier la Catégorie
+                        </button> ";
+                }else{
+                    echo "<button type='submit' id='addCategory' name='addCategory' class='w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition'>
+                    <i class='fas fa-plus-circle mr-2'></i>
+                    Ajouter une Catégorie
+                    </button> ";
+                }
+             ?>
         </form>
     </div>
 

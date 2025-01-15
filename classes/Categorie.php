@@ -38,17 +38,30 @@ class Categorie{
                     <p class='text-gray-500 text-sm'>$categorie[description]</p>
                 </div>
                 <div class='flex space-x-4'>
-                    <button class='text-blue-500 hover:text-blue-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
-                        <i class='fas fa-edit'></i>
-                    </button>
-                    <button class='text-red-500 hover:text-red-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
-                        <i class='fas fa-trash-alt'></i>
-                    </button>
+                    <a href='../administrateur/categories.php?id=$categorie[id_categorie]'>
+                        <button class='text-blue-500 hover:text-blue-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
+                            <i class='fas fa-edit'></i>
+                        </button>
+                    </a>
+                    <a>
+                        <button class='text-red-500 hover:text-red-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
+                            <i class='fas fa-trash-alt'></i>
+                        </button>
+                    </a>
                 </div>
             </li>
             ";
         }
 
+    }
+
+    public function EditCategorie($id, $nom, $description){
+        $stmt=$this->pdo->prepare("UPDATE categorie SET nom = :nom, description = :description WHERE id_categorie = :id_categorie");
+        $stmt->execute([
+            ':id_categorie'=>$id,
+            ':nom'=>$nom,
+            ':description'=>$description
+        ]);
     }
 
 
