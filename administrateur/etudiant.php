@@ -2,9 +2,9 @@
 <?php
 include './header.php';
 include '../database/config.php';
-include '../classes/Utilisateur.php';
+include '../classes/Etudiant.php';
 
-$Etudiant = new Utilisateur($pdo);
+$Etudiant = new Etudiant($pdo);
 ?>
 
 <main class="flex-1 p-8">

@@ -1,9 +1,9 @@
 <?php
 include './header.php';
 include '../database/config.php';
-include '../classes/Utilisateur.php';
+include '../classes/Enseignant.php';
 
-$Enseignant = new Utilisateur($pdo);
+$Enseignant = new Enseignant($pdo);
 ?>
 
 <main class="flex-1 p-8">
