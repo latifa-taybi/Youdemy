@@ -26,17 +26,6 @@ if(isset($_GET['id_delete'])) {
 }
 ?>
 
-
-<?php
-
-
-if(isset($_GET['id_delete'])) {
-    $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
-    header('location: categories.php');
-}
-
-?>
-
 <main class="flex-1 p-8 container mx-auto space-y-8">
     <!-- Header -->
     <div class="text-center">
