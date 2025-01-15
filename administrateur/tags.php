@@ -4,15 +4,38 @@ include '../database/config.php';
 include '../classes/Tag.php';
 
 $tag = new Tag($pdo);
-
-if (isset($_POST['addtag'])) {
-    echo 'hhhhh';
+// --Ajouter des Tags
+if (isset($_POST['addTag'])) {
     $nomTag = $_POST['tagName'];
     $tag->addTag($nomTag);
 }
+// --Modifier les Tags
+if(isset($_GET['id_edit'])) {
+    $tagEdit = $tag->getTagId($_GET['id_edit']);
+}
 
+if(isset($_POST['editTag'])){
+    $nomTag = $_POST['tagName'];
+    $tag->EditTag($_GET['id_edit'], $nomTag);
+    header('location: tags.php');
+}
+
+if(isset($_GET['id_delete'])) {
+    $tagDelete = $tag->DeleteTag($_GET['id_delete']);
+    header('location: tags.php');
+}
 ?>
 
+
+<?php
+
+
+if(isset($_GET['id_delete'])) {
+    $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
+    header('location: categories.php');
+}
+
+?>
 
 <main class="flex-1 p-8 container mx-auto space-y-8">
     <!-- Header -->
@@ -31,19 +54,28 @@ if (isset($_POST['addtag'])) {
                     type="text" 
                     id="tagName" 
                     name="tagName" 
+                    value="<?php if(isset($tagEdit)){echo $tagEdit['nom'];}?>"
                     class="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
                     placeholder="Entrez le nom du tag">
             </div>
 
-            <!-- Bouton Ajouter -->
-            <button 
-                type="submit" 
-                id="addtag" 
-                name="addtag"
-                class="w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition">
-                <i class="fas fa-plus-circle mr-2"></i>
-                Ajouter un Tag
-            </button>
+            <?php
+                if(isset($_GET['id_edit'])){
+                    echo "
+                    <button type='submit' id='editTag' name='editTag' class='w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition'>
+                        <i class='fas fa-plus-circle mr-2'></i>
+                        Modifier le Tag
+                    </button>
+                    ";
+                }else{
+                    echo"
+                    <button type='submit' id='addTag' name='addTag' class='w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition'>
+                        <i class='fas fa-plus-circle mr-2'></i>
+                        Ajouter un Tag
+                    </button>
+                    ";
+                }
+            ?>
         </form>
     </div>
 

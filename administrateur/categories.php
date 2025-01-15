@@ -5,14 +5,14 @@ include '../classes/Categorie.php';
 
 $categorie = new Categorie($pdo);
 // --Ajouter des Categories
-if (isset($_POST['addCategory'])) {
+if(isset($_POST['addCategory'])) {
     $nomCat = $_POST['categoryName'];
     $descCat = $_POST['categoryDescription'];
     $categorie->addCategorie($nomCat, $descCat);
 }
 
 // --Modifier les Categories
-if (isset($_GET['id_edit'])) {
+if(isset($_GET['id_edit'])) {
     $categorieEdit = $categorie->getCategorieId($_GET['id_edit']);
 }
 
@@ -23,7 +23,7 @@ if(isset($_POST['editCategory'])){
     header('location: categories.php');
 }
 
-if (isset($_GET['id_delete'])) {
+if(isset($_GET['id_delete'])) {
     $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
     header('location: categories.php');
 }
