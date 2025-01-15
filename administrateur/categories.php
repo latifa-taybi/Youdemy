@@ -12,14 +12,19 @@ if (isset($_POST['addCategory'])) {
 }
 
 // --Modifier les Categories
-if (isset($_GET['id'])) {
-    $categorieEdit=$categorie->getCategorieId($_GET['id']);
+if (isset($_GET['id_edit'])) {
+    $categorieEdit = $categorie->getCategorieId($_GET['id_edit']);
 }
 
 if(isset($_POST['editCategory'])){
     $nomCat = $_POST['categoryName'];
     $descCat = $_POST['categoryDescription'];
-    $categorie->EditCategorie($_GET['id'], $nomCat, $descCat);
+    $categorie->EditCategorie($_GET['id_edit'], $nomCat, $descCat);
+    header('location: categories.php');
+}
+
+if (isset($_GET['id_delete'])) {
+    $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
     header('location: categories.php');
 }
 
@@ -61,9 +66,9 @@ if(isset($_POST['editCategory'])){
 
             <!-- Bouton Ajouter -->
              <?php
-                if(isset($_GET['id'])){
+                if(isset($_GET['id_edit'])){
                     echo "<button type='submit' id='editCategory' name='editCategory' class='w-full bg-indigo-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-indigo-700 transition'>
-                        <i class='fas fa-plus-circle mr-2'></i>
+                        <i class='fas fa-edit mr-2'></i>
                         Modifier la Catégorie
                         </button> ";
                 }else{
