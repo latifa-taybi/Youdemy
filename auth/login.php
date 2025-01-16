@@ -20,11 +20,15 @@ if(isset($_POST['login'])){
         $_SESSION['user_email'] = $utilisateur['email'];
         $_SESSION['user_role'] = $utilisateur['role'];
         $_SESSION['user_statut'] = $utilisateur['statut'];
-        if( $utilisateur['role']=='Etudiant'){
+        if( $utilisateur['role']=='Etudiant' && $utilisateur['statut']=='Active'){
             header('location: ../etudiant/etudiantPage.php');
-        }else if($utilisateur['role']=='Enseignant'){
+        }else if($utilisateur['role']=='Etudiant' && $utilisateur['statut']=='Desactivé'){
+            header('location: statutEtudiant.php');
+        }else if($utilisateur['role']=='Enseignant' && $utilisateur['statut']=='Pending'){
+            header('location: statutEnseignant.php');
+        }else if( $utilisateur['role']=='Enseignant' && $utilisateur['statut']=='Active'){
             header('location: ../enseignant/enseignantPage.php');
-        }else{
+        }else if($utilisateur['role']=='Administrateur'){
             header('location: ../administrateur/admin.php');
         }
     }else{

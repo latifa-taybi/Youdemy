@@ -28,7 +28,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-12">
 
             <!-- Carte Étudiant -->
-            <a href="./auth/registrationPage.php?role=etudiant">
+            <a href="./auth/registrationPage.php?role=Etudiant">
                 <div id="studentCard" class="card p-8 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-xl cursor-pointer transition-all duration-300">
                     <div class="flex justify-center mb-6">
                     <i class="fa-solid fa-graduation-cap"></i>
@@ -39,7 +39,7 @@
             </a>
 
             <!-- Carte Professeur -->
-            <a href="./auth/registrationPage.php?role=enseignant">
+            <a href="./auth/registrationPage.php?role=Enseignant">
                 <div id="teacherCard" class="card p-8 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-xl shadow-xl cursor-pointer transition-all duration-300">
                     <div class="flex justify-center mb-6">
                     <i class="fa-solid fa-chalkboard-user"></i>
