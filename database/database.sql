@@ -31,6 +31,7 @@ CREATE TABLE Tags (
 );
 
 CREATE TABLE Cours_Tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     cours_id INT,
     tag_id INT,
     FOREIGN KEY (cours_id) REFERENCES Cours(cours_id),
@@ -38,6 +39,7 @@ CREATE TABLE Cours_Tags (
 );
 
 CREATE TABLE Inscription (
+    id_inscription INT AUTO_INCREMENT PRIMARY KEY,
     id INT,
     cours_id INT,
     FOREIGN KEY (id) REFERENCES Utilisateur(id),

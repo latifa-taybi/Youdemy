@@ -1,3 +1,9 @@
+<?php
+include '../database/config.php';
+include '../classes/Categorie.php';
+
+$categorie = new Categorie($pdo);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,22 +48,17 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-10">Catégories populaires</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg">
-                    <h3 class="text-xl font-semibold text-indigo-600 mb-2">Developpement web</h3>
-                    <p class="text-gray-600">Apprendre à créer des sites web modernes.</p>
-                </div>
-                <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg">
-                    <h3 class="text-xl font-semibold text-indigo-600 mb-2">design graphique</h3>
-                    <p class="text-gray-600">Créer des designs.</p>
-                </div>
-                <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg">
-                    <h3 class="text-xl font-semibold text-indigo-600 mb-2">science des données</h3>
-                    <p class="text-gray-600">Analyser et visualiser des données.</p>
-                </div>
-                <div class="bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg">
-                    <h3 class="text-xl font-semibold text-indigo-600 mb-2">Photographie</h3>
-                    <p class="text-gray-600">Maîtriser l'art de la photographie.</p>
-                </div>
+                <?php
+                    $categories = $categorie->displayCategorie();
+                    foreach ($categories as $categorie) {
+                        echo"
+                        <div class='bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg'>
+                           <h3 class='text-xl font-semibold text-indigo-600 mb-2'>$categorie[nom]</h3>
+                           <p class='text-gray-600'>$categorie[description]</p>
+                        </div>
+                        ";
+                    }
+                ?>  
             </div>
         </div>
     </section>

@@ -1,3 +1,11 @@
+<?php
+include '../database/config.php';
+include '../classes/Tag.php';
+include '../classes/Categorie.php';
+
+$tag = new Tag($pdo);
+$categorie = new Categorie($pdo);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,6 +14,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion des Cours</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js" defer></script>
 </head>
 
 <body class="bg-gradient-to-br from-indigo-500 to-purple-600 text-gray-900 p-5">
@@ -33,19 +43,25 @@
           <input type="file" id="content" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
         </div>
         <div>
-          <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
-          <select id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
-            <option>Développement</option>
-            <option>Design</option>
-            <option>Marketing</option>
-          </select>
+          <label for="category" class="block text-gray-700 font-semibold">Tags</label>
+          <select id="multi-select" multiple >
+            <?php
+                $tags = $tag->displayTag();
+                foreach ($tags as $tag) {
+                    echo "<option value='$tag[nom]'>$tag[nom]</option>";
+                }
+            ?>
+           </select>
         </div>
         <div>
           <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
           <select id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
-            <option>Développement</option>
-            <option>Design</option>
-            <option>Marketing</option>
+          <?php
+                $categories = $categorie->displayCategorie();
+                foreach ($categories as $categorie) {
+                    echo "<option value='$categorie[nom]'>$categorie[nom]</option>";
+                }
+            ?>
           </select>
         </div>
         <button type="submit" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow hover:opacity-90 font-bold">Ajouter</button>
@@ -97,6 +113,16 @@
       </div>
     </section>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const multipleSelect = new Choices('#multi-select', {
+            removeItemButton: true, // Permet de supprimer les options sélectionnées
+            placeholderValue: 'Sélectionnez des options...', // Texte par défaut
+            searchPlaceholderValue: 'Rechercher...', // Texte du champ de recherche
+        });
+    });
+</script>
 </body>
 
 </html>

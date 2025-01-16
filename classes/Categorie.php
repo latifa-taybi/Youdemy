@@ -30,29 +30,7 @@ class Categorie{
 
     public function displayCategorie(){
         $categories = $this->getCategories();
-        foreach($categories as $categorie){
-            echo"
-            <li class='flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg'>
-                <div>
-                    <h3 class='font-semibold text-gray-800'>$categorie[nom]</h3>
-                    <p class='text-gray-500 text-sm'>$categorie[description]</p>
-                </div>
-                <div class='flex space-x-4'>
-                    <a href='../administrateur/categories.php?id_edit=$categorie[id_categorie]'>
-                        <button class='text-blue-500 hover:text-blue-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
-                            <i class='fas fa-edit'></i>
-                        </button>
-                    </a>
-                    <a href='../administrateur/categories.php?id_delete=$categorie[id_categorie]'>
-                        <button class='text-red-500 hover:text-red-700 font-small flex items-center space-x-2 transition-transform hover:scale-105'>
-                            <i class='fas fa-trash-alt'></i>
-                        </button>
-                    </a>
-                </div>
-            </li>
-            ";
-        }
-
+        return $categories;
     }
 
     public function EditCategorie($id, $nom, $description){

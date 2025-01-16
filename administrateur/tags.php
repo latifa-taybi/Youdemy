@@ -74,7 +74,28 @@ if(isset($_GET['id_delete'])) {
         <ul id="tagList" class="space-y-4">
             <!-- Exemple de tag -->
             <?php
-            $tag->displayTag();
+            $tags=$tag->displayTag();
+            foreach($tags as $tag){
+                echo"
+                <li class='flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition'>
+                    <div>
+                        <h3 class='font-semibold text-gray-800'>$tag[nom]</h3>
+                    </div>
+                    <div class='flex space-x-4'>
+                        <a href='../administrateur/tags.php?id_edit=$tag[id_tag]'>
+                            <button class='text-blue-500 hover:text-blue-700 font-medium flex items-center space-x-2 transition-transform hover:scale-110'>
+                                <i class='fas fa-edit'></i>
+                            </button>
+                        </a>
+                        <a href='../administrateur/tags.php?id_delete=$tag[id_tag]'>
+                            <button class='text-red-500 hover:text-red-700 font-medium flex items-center space-x-2 transition-transform hover:scale-110'>
+                                <i class='fas fa-trash-alt'></i>
+                            </button>
+                        </a>
+                    </div>
+                </li>
+                ";
+            }
             ?>
             <!-- Les autres tags seront ajoutés dynamiquement ici -->
         </ul>
