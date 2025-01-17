@@ -1,8 +1,10 @@
 <?php
-include '../database/config.php';
+require_once '../database/config.php';
 include '../classes/Categorie.php';
+include '../classes/Cours.php';
 
 $categorie = new Categorie($pdo);
+$cours = new Cours($pdo, '', '','', '', '');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -70,17 +72,21 @@ $categorie = new Categorie($pdo);
             <h3 class="text-3xl font-bold text-gray-800 mb-8">Catalogue des Cours</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Card -->
-                <div class="bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-2 transition-transform">
-                    <img src="https://via.placeholder.com/300x150" alt="Course Image" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h4 class="text-xl font-bold text-gray-800 mb-2">Titre du Cours</h4>
-                        <p class="text-gray-600 mb-4">Courte description du cours...</p>
-                        <div class="flex justify-between items-center">
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Voir Détails</button>
-                            <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">S'inscrire</button>
+                 <?php
+                $courses = $cours->displayCours();
+                foreach($courses as $cours){
+                echo "<div class='bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-2 transition-transform'>
+                    <div class='p-6'>
+                        <h4 class='text-xl font-bold text-gray-800 mb-2'>$cours[titre]</h4>
+                        <p class='text-gray-600 mb-4'>$cours[description]</p>
+                        <div class='flex justify-between items-center'>
+                            <a href=detailsCours.php?id=$cours[cours_id]><button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>Voir Détails</button></a>
+                            <button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</button>
                         </div>
                     </div>
-                </div>
+                </div>";
+            }
+                ?>
                 <!-- Duplicate this card as needed -->
             </div>
         </section>
