@@ -23,6 +23,7 @@ if(isset($_POST['editCategory'])){
     header('location: categories.php');
 }
 
+// --Supprimer les Categories
 if(isset($_GET['id_delete'])) {
     $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
     header('location: categories.php');

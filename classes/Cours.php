@@ -16,6 +16,20 @@ class Cours{
         $this->categorieId = $categorieId;
     }
 
+    public function getCoursId($id_cours){
+        $stmt=$this->pdo->prepare("SELECT * FROM cours WHERE cours_id=:id");
+        $stmt->execute([
+            ':id'=>$id_cours
+        ]);
+        return $stmt->fetch();
+    }
+
+    public function getTagsByCoursId($coursId) {
+        $stmt = $this->pdo->prepare("SELECT T.id_tag, T.nom FROM cours_tags CT JOIN tags T ON CT.tag_id = T.id_tag WHERE CT.cours_id = :cours_id");
+        $stmt->execute(['cours_id' => $coursId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function ajoutCours() {
         $stmt=$this->pdo->prepare("INSERT INTO cours(titre, description, contenu, categorie_id)VALUES(:titre, :description, :contenu, :categorieId)");
         $stmt->execute([
@@ -39,7 +53,16 @@ class Cours{
         return $cours;
     }
 
-   
+    public function editCours($id, $titre, $description, $categorieId,$contenu){
+        $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titer, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
+        $stmt->execute([
+            ':titre'=>$titre,
+            ':description'=>$description,
+            ':categorieId'=>$categorieId,
+            ':contenu'=>$contenu,
+            ':cours_id'=>$id
+        ]);
+    }
 }
 
 class Video extends Cours {

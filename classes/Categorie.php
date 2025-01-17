@@ -23,7 +23,7 @@ class Categorie{
     public function getCategorieId($id_categorie){
         $stmt=$this->pdo->prepare("SELECT * FROM categorie WHERE id_categorie=:id");
         $stmt->execute([
-            'id'=>$id_categorie
+            ':id'=>$id_categorie
         ]);
         return $stmt->fetch();
     }
