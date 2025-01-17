@@ -2,9 +2,11 @@
 include '../database/config.php';
 include '../classes/Tag.php';
 include '../classes/Categorie.php';
+include '../classes/Cours.php';
 
 $tag = new Tag($pdo);
 $categorie = new Categorie($pdo);
+$cours = new Cours($pdo, '', '', '', '', '');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,42 +31,50 @@ $categorie = new Categorie($pdo);
     <!-- Section: Ajout de cours -->
     <section class="bg-white p-8 rounded-xl shadow-lg mb-12">
       <h2 class="text-2xl font-bold text-purple-700 mb-4">Ajouter un Nouveau Cours</h2>
-      <form method="post" action="" class="space-y-4">
+      <form method="post" action="ajout_cours.php" class="space-y-4" enctype="multipart/form-data">
         <div>
           <label for="title" class="block text-gray-700 font-semibold">Titre</label>
-          <input type="text" id="title" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" placeholder="Titre du cours" required>
+          <input type="text" name="title" id="title" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" placeholder="Titre du cours" required>
         </div>
         <div>
           <label for="description" class="block text-gray-700 font-semibold">Description</label>
-          <textarea id="description" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" rows="4" placeholder="Description du cours" required></textarea>
+          <input id="description" name="description" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" rows="4" placeholder="Description du cours" required></input>
+        </div>
+        <div>
+          <label for="typeContenu" class="block text-gray-700 font-semibold">Catégorie</label>
+          <select name="typeContenu" id="typeContenu" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
+            <option>video</option>
+            <option>image</option>
+            <option>document</option>
+          </select>
         </div>
         <div>
           <label for="content" class="block text-gray-700 font-semibold">Contenu (Vidéo ou Document)</label>
-          <input type="file" id="content" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
+          <input type="file" name="content" id="content" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
         </div>
         <div>
-          <label for="category" class="block text-gray-700 font-semibold">Tags</label>
-          <select id="multi-select" multiple >
+          <label for="tags" class="block text-gray-700 font-semibold">Tags</label>
+          <select name="tags[]" id="multi-select" multiple >
             <?php
                 $tags = $tag->displayTag();
                 foreach ($tags as $tag) {
-                    echo "<option value='$tag[nom]'>$tag[nom]</option>";
+                    echo "<option value='$tag[id_tag]'>$tag[nom]</option>";
                 }
             ?>
            </select>
         </div>
         <div>
           <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
-          <select id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
+          <select name="category" id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
           <?php
                 $categories = $categorie->displayCategorie();
                 foreach ($categories as $categorie) {
-                    echo "<option value='$categorie[nom]'>$categorie[nom]</option>";
+                    echo "<option value='$categorie[id_categorie]'>$categorie[nom]</option>";
                 }
             ?>
           </select>
         </div>
-        <button type="submit" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow hover:opacity-90 font-bold">Ajouter</button>
+        <button name="addCours" type="submit" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-lg shadow hover:opacity-90 font-bold">Ajouter</button>
       </form>
     </section>
 
@@ -73,27 +83,20 @@ $categorie = new Categorie($pdo);
       <h2 class="text-2xl font-bold text-white mb-6">Cours Disponibles</h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Exemple de carte de cours -->
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition">
-          <h3 class="text-lg font-bold text-purple-700">Exemple de Cours 1</h3>
-          <p class="text-gray-600 mt-2">Une description rapide de ce cours fascinant.</p>
-          <p class="text-sm text-gray-500 mt-4">Catégorie : Développement</p>
-          <p class="text-sm text-gray-500">Inscriptions : 12</p>
-          <div class="mt-4 flex justify-between items-center">
-            <button class="text-sm text-blue-600 font-semibold hover:underline">Modifier</button>
-            <button class="text-sm text-red-600 font-semibold hover:underline">Supprimer</button>
+         <?php
+         $courses = $cours->displayCours();
+         foreach($courses as $cours){
+          echo"<div class='bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition'>
+          <h3 class='text-lg font-bold text-purple-700'>$cours[titre]</h3>
+          <p class='text-gray-600 mt-2'>$cours[description]</p>
+          <p class='text-sm text-gray-500 mt-4'>Catégorie : $cours[nom]</p>
+          <div class='mt-4 flex justify-between items-center'>
+            <a href='#?id=$cours[cours_id]'><button class='text-sm text-blue-600 font-semibold hover:underline'>Modifier</button></a>
+            <a href='#?id=$cours[cours_id]'><button class='text-sm text-red-600 font-semibold hover:underline'>Supprimer</button></a>
           </div>
-        </div>
-        <!-- Ajoutez d'autres cartes ici -->
-        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transform hover:scale-105 transition">
-          <h3 class="text-lg font-bold text-purple-700">Exemple de Cours 2</h3>
-          <p class="text-gray-600 mt-2">Ce cours est particulièrement mauvais, mais il existe !</p>
-          <p class="text-sm text-gray-500 mt-4">Catégorie : Marketing</p>
-          <p class="text-sm text-gray-500">Inscriptions : 3</p>
-          <div class="mt-4 flex justify-between items-center">
-            <button class="text-sm text-blue-600 font-semibold hover:underline">Modifier</button>
-            <button class="text-sm text-red-600 font-semibold hover:underline">Supprimer</button>
-          </div>
-        </div>
+        </div>";
+         }
+         ?>
       </div>
     </section>
 

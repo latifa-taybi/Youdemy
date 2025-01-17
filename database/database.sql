@@ -20,6 +20,7 @@ CREATE TABLE Cours (
     cours_id INT AUTO_INCREMENT PRIMARY KEY,
     titre VARCHAR(200) NOT NULL,
     description TEXT NOT NULL,
+    type_contenu ENUM('video', 'image', 'document') NOT NULL,
     contenu TEXT NOT NULL,
     categorie_id INT,
     FOREIGN KEY (categorie_id) REFERENCES Categorie(id_categorie)
