@@ -1,3 +1,11 @@
+<?php
+require_once 'database/config.php';
+include './classes/Categorie.php';
+include './classes/Cours.php';
+
+$categorie = new Categorie($pdo);
+$cours = new Cours($pdo, '', '','', '', '');
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -80,16 +88,20 @@
         <div class="container mx-auto px-6">
             <h2 class="text-3xl font-bold text-center mb-10">Les Cours</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg">
-                    <img src="https://via.placeholder.com/400x200" alt="Course" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 class="text-xl font-semibold mb-2">Bases de JavaScript</h3>
-                        <p class="text-gray-600 mb-4">Apprenez les fondamentaux de JavaScript dans ce cours adapté aux débutants.</p>
-                        <div class="flex items-center justify-between">
-                            <a href="#" class="text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700">S'inscrire</a>
+                <?php
+                $courses = $cours->displayCours();
+                foreach($courses as $cours){
+                  echo "<div class='bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg'>
+                    <div class='p-6'>
+                        <h3 class='text-xl font-semibold mb-2'>$cours[titre]</h3>
+                        <p class='text-gray-600 mb-4'>$cours[description]</p>
+                        <div class='flex items-center justify-between'>
+                            <a href='#' class='text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</a>
                         </div>
                     </div>
-                </div>
+                </div>";
+                }
+                  ?>
                 <!-- Repeat for more courses -->
             </div>
         </div>

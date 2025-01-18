@@ -1,12 +1,12 @@
 <?php
 include '../database/config.php';
-include '../etudiant/etudiantPage.php';
+include '../classes/Cours.php';
+include '../classes/Categorie.php';
 
 $categorie = new Categorie($pdo);
 $cours = new Cours($pdo, '', '','', '', '');
 
-
-
+$Cours = $cours->getCoursDetails($_GET['id']);
 
 ?>
 <!DOCTYPE html>
@@ -26,59 +26,39 @@ $cours = new Cours($pdo, '', '','', '', '');
     <!-- Titre -->
     <div class="flex items-center space-x-4">
       <h3 class="text-lg font-bold text-gray-700 w-1/3">Titre :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php echo isset($coursEdit) ? $coursEdit['titre'] : 'Non défini'; ?></p>
+      <p class="text-gray-600 text-base flex-1"><?php if(isset($Cours)){echo $Cours['titre'];} ?></p>
     </div>
     
     <!-- Description -->
     <div class="flex items-start space-x-4">
       <h3 class="text-lg font-bold text-gray-700 w-1/3">Description :</h3>
-      <p class="text-gray-600 text-base flex-1 leading-relaxed"><?php echo isset($coursEdit) ? $coursEdit['description'] : 'Non défini'; ?></p>
+      <p class="text-gray-600 text-base flex-1 leading-relaxed"><?php if(isset($Cours)){echo $Cours['description'];}  ?></p>
     </div>
     
     <!-- Type de Contenu -->
     <div class="flex items-center space-x-4">
       <h3 class="text-lg font-bold text-gray-700 w-1/3">Type de Contenu :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php echo isset($coursEdit) ? ucfirst($coursEdit['type_contenu']) : 'Non défini'; ?></p>
+      <p class="text-gray-600 text-base flex-1"><?php if(isset($Cours)){echo $Cours['type_contenu'];}  ?></p>
     </div>
     
     <!-- Contenu -->
     <div class="flex items-center space-x-4">
       <h3 class="text-lg font-bold text-gray-700 w-1/3">Contenu :</h3>
-      <a href="<?php echo isset($coursEdit) ? $coursEdit['contenu'] : '#'; ?>" class="text-purple-600 underline text-base flex-1">
-        <?php echo isset($coursEdit) ? basename($coursEdit['contenu']) : 'Aucun fichier'; ?>
+      <a href="<?php if(isset($Cours)){echo $Cours['contenu'];}  ?>" class="text-purple-600 underline text-base flex-1">
+        <?php if(isset($coursEdit)){echo basename($coursEdit['contenu']);} ?>
       </a>
-    </div>
-    
-    <!-- Tags -->
-    <div class="flex items-start space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Tags :</h3>
-      <ul class="flex-1 space-y-2">
-        <?php
-        if (isset($coursTags)) {
-          foreach ($coursTags as $tag) {
-            echo "<li class='inline-block bg-purple-100 text-purple-700 px-3 py-1 rounded-lg font-medium'>{$tag['nom']}</li>";
-          }
-        } else {
-          echo "<li class='text-gray-600'>Non défini</li>";
-        }
-        ?>
-      </ul>
     </div>
     
     <!-- Catégorie -->
     <div class="flex items-center space-x-4">
       <h3 class="text-lg font-bold text-gray-700 w-1/3">Catégorie :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php echo isset($coursEdit) ? $coursEdit['categorie'] : 'Non défini'; ?></p>
+      <p class="text-gray-600 text-base flex-1"><?php if(isset($coursEdit)){echo $coursEdit['categorie'];} ?></p>
     </div>
   </div>
 
   <!-- Boutons -->
   <div class="mt-8 flex justify-between">
-    <a href="modifier_cours.php?id=<?php echo $_GET['id_edit']; ?>" 
-       class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-lg shadow-lg hover:opacity-90 font-semibold transition duration-200">
-      Modifier le Cours
-    </a>
-    <a href="liste_cours.php" 
+    <a href="etudiantPage.php" 
        class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-600 font-semibold transition duration-200">
       Retour à la Liste
     </a>

@@ -27,7 +27,7 @@ class Cours{
     public function getTagsByCoursId($coursId) {
         $stmt = $this->pdo->prepare("SELECT T.id_tag, T.nom FROM cours_tags CT JOIN tags T ON CT.tag_id = T.id_tag WHERE CT.cours_id = :cours_id");
         $stmt->execute(['cours_id' => $coursId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll();
     }
 
     public function ajoutCours() {
@@ -46,6 +46,12 @@ class Cours{
         $stmt=$this->pdo->prepare("SELECT * FROM cours C JOIN categorie CA ON  C.categorie_id= CA.id_categorie");
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    public function getCoursDetails($id_cours) {
+        $stmt = $this->pdo->prepare("SELECT C.*, CA.nom AS categorie FROM cours C JOIN categorie CA ON C.categorie_id = CA.id_categorie WHERE C.cours_id = :id");
+        $stmt->execute([':id' => $id_cours]);
+        return  $stmt->fetch();
     }
 
     public function displayCours(){
