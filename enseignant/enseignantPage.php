@@ -25,10 +25,10 @@ if (isset($_POST['editCours'])) {
 }
 
 // --Supprimer les Cours
-// if(isset($_GET['id_delete'])) {
-//   $categorieDelete = $categorie->DeleteCategorie($_GET['id_delete']);
-//   header('location: categories.php');
-// }
+if(isset($_GET['id_delete'])) {
+  $coursDelete = $cours->DeleteCours($_GET['id_delete']);
+  header('location: enseignantPage.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,13 +100,7 @@ if (isset($_POST['editCours'])) {
         <div>
           <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
           <select name="category" id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
-            <option value="<?php if (isset($coursEdit)) {
-                              echo $coursEdit['categorie_id'];
-                            } ?>" selected><?php if (isset($coursEdit)) {
-                                                                                                        echo $coursEdit['categorie'];
-                                                                                                      } else {
-                                                                                                        echo "Sélectionnez une catégorie";
-                                                                                                      } ?></option>
+            <option value="<?php if (isset($coursEdit)) { echo $coursEdit['categorie_id']; } ?>" selected><?php if (isset($coursEdit)) { echo $coursEdit['categorie']; } else { echo "Sélectionnez une catégorie"; } ?></option>
             <?php
             $categories = $categorie->displayCategorie();
             foreach ($categories as $categorie) {
@@ -144,7 +138,7 @@ if (isset($_POST['editCours'])) {
           <p class='text-sm text-gray-500 mt-4'>Catégorie : $cours[nom]</p>
           <div class='mt-4 flex justify-between items-center'>
             <a href='?id_edit=$cours[cours_id]'><button class='text-sm text-blue-600 font-semibold hover:underline'>Modifier</button></a>
-            <a href='#?id_delete=$cours[cours_id]'><button class='text-sm text-red-600 font-semibold hover:underline'>Supprimer</button></a>
+            <a href='?id_delete=$cours[cours_id]'><button class='text-sm text-red-600 font-semibold hover:underline'>Supprimer</button></a>
           </div>
         </div>";
         }

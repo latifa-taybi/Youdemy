@@ -83,5 +83,12 @@ class Cours{
             ':cours_id'=>$id
         ]);
     }
+
+    public function DeleteCours($id){
+        $stmt=$this->pdo->prepare("DELETE FROM cours WHERE cours_id = :cours_id");
+        $stmt->execute([
+            ':cours_id'=>$id
+        ]);
+    }
 }
 ?>
