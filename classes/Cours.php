@@ -59,6 +59,13 @@ class Cours{
         return $cours;
     }
 
+    public function countCours()
+    {
+        $stmt=$this->pdo->prepare("SELECT COUNT(*) as nb_total FROM cours ");
+        $stmt->execute();   
+        return $stmt->fetch();
+    }
+
     public function editCours($id, $titre, $description, $categorieId,$contenu){
         $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titer, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
         $stmt->execute([
@@ -68,24 +75,6 @@ class Cours{
             ':contenu'=>$contenu,
             ':cours_id'=>$id
         ]);
-    }
-}
-
-class Video extends Cours {
-    public function __construct($pdo, $titre, $description, $contenu, $categorieId) {
-        parent::__construct($pdo, $titre, $description, 'video', $contenu, $categorieId);
-    }
-}
-
-class Image extends Cours {
-    public function __construct($pdo, $titre, $description, $contenu, $categorieId) {
-        parent::__construct($pdo, $titre, $description, 'image', $contenu, $categorieId);
-    }
-}
-
-class Document extends Cours {
-    public function __construct($pdo, $titre, $description, $contenu, $categorieId) {
-        parent::__construct($pdo, $titre, $description, 'document', $contenu, $categorieId);
     }
 }
 ?>

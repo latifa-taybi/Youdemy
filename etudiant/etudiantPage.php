@@ -8,7 +8,6 @@ $cours = new Cours($pdo, '', '','', '', '');
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,8 +25,8 @@ $cours = new Cours($pdo, '', '','', '', '');
                 <span>Youdemy</span>
             </a>
             <nav class="space-x-6">
-                <a href="#" class="text-gray-600 hover:text-indigo-600 transition">Accueil</a>
-                <a href="#mes-cours" class="text-gray-600 hover:text-indigo-600 transition">Mes Cours</a>
+                <a active href="etudiantPage.php" class="text-gray-600 hover:text-indigo-600 transition">Accueil</a>
+                <a href="InscriptionPage.php" class="text-gray-600 hover:text-indigo-600 transition">Mes Cours</a>
             </nav>
         </div>
     </header>
@@ -76,29 +75,22 @@ $cours = new Cours($pdo, '', '','', '', '');
                 $courses = $cours->displayCours();
                 foreach($courses as $cours){
                 echo "<div class='bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-2 transition-transform'>
+                    <img src='' alt='Course Image' class='w-full h-48 object-cover'>
                     <div class='p-6'>
                         <h4 class='text-xl font-bold text-gray-800 mb-2'>$cours[titre]</h4>
                         <p class='text-gray-600 mb-4'>$cours[description]</p>
                         <div class='flex justify-between items-center'>
                             <a href=detailsCours.php?id=$cours[cours_id]><button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>Voir Détails</button></a>
-                            <button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</button>
+                            <a href=InscriptionPage.php?id=$cours[cours_id]><button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</button></a>
                         </div>
                     </div>
                 </div>";
-            }
-                ?>
+                }
+            ?>
                 <!-- Duplicate this card as needed -->
             </div>
         </section>
 
-        <!-- Section Mes Cours -->
-        <section id="mes-cours">
-            <h3 class="text-3xl font-bold text-gray-800 mb-8">Mes Cours</h3>
-            <div class="bg-gray-100 border-l-4 border-indigo-600 shadow-md rounded-lg p-8">
-                <p class="text-gray-700 text-lg">Vous n'avez rejoint aucun cours pour le moment. Explorez le catalogue pour commencer votre apprentissage !</p>
-                <a href="#" class="inline-block mt-4 bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition">Explorer les Cours</a>
-            </div>
-        </section>
     </main>
 
     <!-- Footer -->

@@ -5,6 +5,10 @@ include './classes/Cours.php';
 
 $categorie = new Categorie($pdo);
 $cours = new Cours($pdo, '', '','', '', '');
+$nb_total_cours=$cours->countCours();
+// echo $nb_total_cours['nb_total'];
+// print_r($nb_total_cours) ;
+$nbrs_pages = $nb_total_cours['nb_total']/3;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -106,6 +110,18 @@ $cours = new Cours($pdo, '', '','', '', '');
             </div>
         </div>
     </section>
+    <nav aria-label="Page navigation example" class="flex items-center justify-center mb-5">
+  <ul class="inline-flex -space-x-px text-base h-10">
+    <?php
+    for($i=1;$i<=$nbrs_pages;$i++){
+      echo"<li>
+      <a href='?page=$i' class='flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>$i</a>
+    </li>";
+    }
+    ?>
+  </ul>
+</nav>
+ 
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6">
