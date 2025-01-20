@@ -66,6 +66,13 @@ class Cours{
         return $stmt->fetch();
     }
 
+    public function Pagination(int $limit,int $offset){
+        $cours = $this->displayCours();
+        $stmt=$this->pdo->prepare("SELECT * FROM cours LIMIT $limit OFFSET $offset");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public function editCours($id, $titre, $description, $categorieId,$contenu){
         $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titer, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
         $stmt->execute([
