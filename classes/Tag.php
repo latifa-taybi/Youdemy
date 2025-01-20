@@ -27,6 +27,13 @@ class Tag{
         return $stmt->fetch();
     }
 
+    public function countTag()
+    {
+        $stmt=$this->pdo->prepare("SELECT COUNT(*) as nb_total FROM tags ");
+        $stmt->execute();   
+        return $stmt->fetch();
+    }
+
     public function displayTag(){
         $tags = $this->getTags();
         return $tags;

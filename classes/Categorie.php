@@ -33,6 +33,13 @@ class Categorie{
         return $categories;
     }
 
+    public function countCategorie()
+    {
+        $stmt=$this->pdo->prepare("SELECT COUNT(*) as nb_total FROM categorie ");
+        $stmt->execute();   
+        return $stmt->fetch();
+    }
+
     public function EditCategorie($id, $nom, $description){
         $stmt=$this->pdo->prepare("UPDATE categorie SET nom = :nom, description = :description WHERE id_categorie = :id_categorie");
         $stmt->execute([

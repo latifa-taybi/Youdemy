@@ -48,6 +48,15 @@ class Utilisateur {
         }
     }
 
+    public function countUtilisateur($role)
+    {
+        $stmt=$this->pdo->prepare("SELECT COUNT(*) as nb_total FROM utilisateur WHERE role = :role");
+        $stmt->execute([
+            ':role'=>$role
+        ]);
+        return $stmt->fetch();
+    }
+
     public function accountManager($id){
         $stmt = $this->pdo->prepare("UPDATE utilisateur SET statut = case WHEN (statut) = 'Active' THEN 'Desactivé' ELSE 'Active' END WHERE id = :id;");
         $stmt->execute([

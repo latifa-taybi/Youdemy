@@ -8,11 +8,6 @@ $cours = new Cours($pdo, '', '','', '', '');
 $nb_total_cours=$cours->countCours();
 // echo $nb_total_cours['nb_total'];
 // print_r($nb_total_cours) ;
-$nbrs_pages = $nb_total_cours['nb_total']/3;
-
-
-$cours= new Cours($pdo, '', '','', '', '');
-$nb_total_cours=$cours->countCours();
 
 if(isset($_GET['page'])){
     $page = $_GET['page'];
@@ -20,12 +15,11 @@ if(isset($_GET['page'])){
     $page = 1;
 }
 // echo $page;
-$nbr_cours_par_page = 3;
 $nbrs_pages = $nb_total_cours['nb_total']/3;
 $offset = ($page - 1) * 3;
 // echo $offset;
 
-$pagination=$cours->Pagination($nbr_cours_par_page, $offset);
+$pagination=$cours->Pagination(3, $offset);
 // print_r($pagination);
 
 ?>

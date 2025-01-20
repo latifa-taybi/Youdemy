@@ -1,5 +1,5 @@
 <?php
-include 'Utilisateur.php';
+require_once 'Utilisateur.php';
 
 class Enseignant extends Utilisateur{
 
@@ -10,6 +10,10 @@ class Enseignant extends Utilisateur{
     public function displayEnseignants(){
         $enseignants = $this->getEnseignants();
         $this->displayUsers($enseignants);
+    }
+
+    public function countEnseignant(){
+        return $this->countUtilisateur('Enseignant');
     }
 }
 ?>
