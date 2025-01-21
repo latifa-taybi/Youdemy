@@ -5,22 +5,41 @@ include './classes/Cours.php';
 
 $categorie = new Categorie($pdo);
 $cours = new Cours($pdo, '', '','', '', '');
-$nb_total_cours=$cours->countCours();
+
 // echo $nb_total_cours['nb_total'];
 // print_r($nb_total_cours) ;
 
+// -------------Pagination-------------------
 if(isset($_GET['page'])){
     $page = $_GET['page'];
 }else{
     $page = 1;
 }
+
 // echo $page;
-$nbrs_pages = $nb_total_cours['nb_total']/3;
+// $nbrs_pages = ceil($nb_total_cours['nb_total']/3);
 $offset = ($page - 1) * 3;
 // echo $offset;
 
-$pagination=$cours->Pagination(3, $offset);
+// $pagination=$cours->Pagination(3, $offset);
 // print_r($pagination);
+
+// $recherche = $cours->Recherche('vero');
+//     print_r($recherche);
+
+// -------------Recherche par mot clé-----------
+
+if(isset($_POST['recherche'])){
+    $mot_cle = $_POST['mot_cle'];
+    $nb_total_cours=$cours->countRechercheCours($mot_cle);
+    $nbrs_pages = ceil($nb_total_cours['nb_total']/3);
+    $coursPagination = $cours->PaginationRecherche($mot_cle, 3, $offset);
+}else{
+    $nb_total_cours=$cours->countCours();
+    $nbrs_pages = ceil($nb_total_cours['nb_total']/3);
+    $coursPagination = $cours->Pagination(3, $offset);
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -93,10 +112,12 @@ $pagination=$cours->Pagination(3, $offset);
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">Apprenez tout, partout</h1>
             <p class="text-lg md:text-xl mb-8">Rejoignez des milliers d'apprenants du monde entier pour développer vos compétences.</p>
-            <div class="max-w-2xl mx-auto flex items-center space-x-4">
-                <input type="text" placeholder="Que voulez-vous apprendre ?" class="w-full px-4 py-3 rounded-lg text-gray-800">
-                <button class="bg-white text-indigo-600 px-6 py-3 rounded-lg hover:bg-gray-200">Rechercher</button>
-            </div>
+            <form action=""  method="POST">
+              <div class="max-w-2xl mx-auto flex items-center space-x-4">
+                <input name="mot_cle" type="text" placeholder="Que voulez-vous apprendre ?" class="w-full px-4 py-3 rounded-lg text-gray-800">
+                <button name="recherche" class="bg-white text-indigo-600 px-6 py-3 rounded-lg hover:bg-gray-200">Rechercher</button>
+              </div>
+            </form>
         </div>
     </section>
 
@@ -106,17 +127,18 @@ $pagination=$cours->Pagination(3, $offset);
             <h2 class="text-3xl font-bold text-center mb-10">Les Cours</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <?php
-                foreach($pagination as $cours){
-                  echo "<div class='bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg'>
-                    <div class='p-6'>
-                        <h3 class='text-xl font-semibold mb-2'>$cours[titre]</h3>
-                        <p class='text-gray-600 mb-4'>$cours[description]</p>
-                        <div class='flex items-center justify-between'>
-                            <a href='#' class='text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</a>
-                        </div>
-                    </div>
-                </div>";
-                }
+                  foreach($coursPagination as $cours){
+                    echo "<div class='bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg'>
+                      <div class='p-6'>
+                          <h3 class='text-xl font-semibold mb-2'>$cours[titre]</h3>
+                          <p class='text-gray-600 mb-4'>$cours[description]</p>
+                          <div class='flex items-center justify-between'>
+                              <a href='#' class='text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</a>
+                          </div>
+                      </div>
+                  </div>";
+                  }
+                
                   ?>
                 <!-- Repeat for more courses -->
             </div>

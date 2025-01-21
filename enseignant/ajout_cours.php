@@ -2,6 +2,9 @@
 
 include '../database/config.php'; // Fichier pour la connexion PDO
 include '../classes/Cours.php';
+include '../classes/Document.php';
+include '../classes/Video.php';
+include '../classes/Image.php';
 
 
 if(isset($_POST['addCours'])){

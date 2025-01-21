@@ -38,6 +38,9 @@ if(isset($_GET['id_delete'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion des Cours</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
   <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js" defer></script>
 </head>
@@ -164,12 +167,9 @@ if(isset($_GET['id_delete'])) {
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const multipleSelect = new Choices('#multi-select', {
-        removeItemButton: true, // Permet de supprimer les options sélectionnées
-        placeholderValue: 'Sélectionnez des options...', // Texte par défaut
-        searchPlaceholderValue: 'Rechercher...', // Texte du champ de recherche
-      });
+    new TomSelect('#multi-select', {
+      create: true,
+      plugins: ['remove_button'],
     });
   </script>
 </body>

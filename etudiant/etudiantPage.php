@@ -90,7 +90,6 @@ $cours = new Cours($pdo, '', '','', '', '');
                 <!-- Duplicate this card as needed -->
             </div>
         </section>
-
     </main>
 
     <!-- Footer -->

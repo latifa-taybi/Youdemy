@@ -73,6 +73,33 @@ class Cours{
         return $stmt->fetchAll();
     }
 
+    public function Recherche($mot_cle){
+        $cours = $this->displayCours();
+        $stmt = $this->pdo->prepare("SELECT * From cours WHERE titre LIKE :mot_cle");
+        $stmt->execute([
+            ':mot_cle'=>'%'.$mot_cle.'%'
+        ]);
+        return $stmt->fetchAll();
+    }
+
+    public function countRechercheCours($mot_cle)
+    {
+        $stmt=$this->pdo->prepare("SELECT COUNT(*) as nb_total FROM cours WHERE titre LIKE :mot_cle");
+        $stmt->execute([
+            ':mot_cle'=>'%'.$mot_cle.'%'
+        ]);   
+        return $stmt->fetch();
+    }
+
+    public function PaginationRecherche($mot_cle, int $limit, int $offset){
+        $stmt = $this->pdo->prepare("SELECT * FROM cours WHERE titre LIKE :mot_cle LIMIT $limit OFFSET $offset");
+        $stmt->execute([
+            ':mot_cle' => '%'.$mot_cle.'%'
+        ]);
+        return $stmt->fetchAll();
+    }
+
+
     public function editCours($id, $titre, $description, $categorieId,$contenu){
         $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titer, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
         $stmt->execute([
