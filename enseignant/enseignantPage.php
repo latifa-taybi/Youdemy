@@ -4,23 +4,45 @@ include '../classes/Tag.php';
 include '../classes/Categorie.php';
 include '../classes/Cours.php';
 
+
 $tag = new Tag($pdo);
 $categorie = new Categorie($pdo);
 $cours = new Cours($pdo, '', '', '', '', '');
 
+$cours = new Cours($pdo, '', '', '', '');
+
+if(isset($_POST['addCours'])){
+    $titre=$_POST['title'];
+    $description=$_POST['description'];
+    $contenu=$_POST['contenu'];
+    $categorieId=$_POST['category'];
+    $tags=$_POST['tags'];
+
+    $cours_id = $cours->ajoutCours();
+    foreach($tags as $tagId){
+        
+        $stmt = $pdo->prepare("INSERT INTO cours_tags (cours_id, tag_id) VALUES(:cours_id, :tag_id)");
+        $stmt->execute([
+            'cours_id'=>$cours_id,
+            'tag_id'=>$tagId
+        ]);
+    }
+    header('location: enseignantPage.php');
+}
+
 // --Modifier les Cours
 if (isset($_GET['id_edit'])) {
   $coursEdit = $cours->getCoursId($_GET['id_edit']);
+    $tagsEdit = $cours->getTagsByCoursId($_GET['id_edit']);
 }
 
 if (isset($_POST['editCours'])) {
   $title = $_POST['title'];
   $description = $_POST['description'];
-  $typeContenu = $_POST['typeContenu'];
-  $content = $_POST['content'];
+  $contenu = $_POST['contenu'];
   $tags = $_POST['tags'];
   $category = $_POST['category'];
-  $cours->EditCours($_GET['id_edit'],  $title, $description, $category, $content);
+  $cours->EditCours($_GET['id_edit'],  $title, $description, $category, $contenu);
   header('location: enseignantPage.php');
 }
 
@@ -38,11 +60,18 @@ if(isset($_GET['id_delete'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestion des Cours</title>
   <script src="https://cdn.tailwindcss.com"></script>
+<!-- CDN tom-select -->
   <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+<!-- CDN summernote -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js" defer></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-bs4.min.js"></script>
 </head>
 
 <body class="bg-gradient-to-br from-indigo-500 to-purple-600 text-gray-900 p-5">
@@ -56,54 +85,32 @@ if(isset($_GET['id_delete'])) {
     <!-- Section: Ajout de cours -->
     <section class="bg-white p-8 rounded-xl shadow-lg mb-12">
       <h2 class="text-2xl font-bold text-purple-700 mb-4">Ajouter un Nouveau Cours</h2>
-      <form method="post" action="ajout_cours.php" class="space-y-4" enctype="multipart/form-data">
+      <form method="post" action="" class="space-y-4" enctype="multipart/form-data">
         <div>
           <label for="title" class="block text-gray-700 font-semibold">Titre</label>
           <input type="text" name="title" id="title" value="<?php if (isset($coursEdit)) { echo $coursEdit['titre']; } ?>" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" placeholder="Titre du cours" required>
         </div>
+        
         <div>
           <label for="description" class="block text-gray-700 font-semibold">Description</label>
           <input id="description" name="description" value="<?php if (isset($coursEdit)) { echo $coursEdit['description']; } ?>" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400" rows="4" placeholder="Description du cours" required></input>
         </div>
         <div>
-          <label for="typeContenu" class="block text-gray-700 font-semibold">Catégorie</label>
-          <select name="typeContenu" id="typeContenu" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
-            <option value="video" <?php if (isset($coursEdit) && $coursEdit['type_contenu'] == 'video') echo 'selected'; ?>>video</option>
-            <option value="image" <?php if (isset($coursEdit) && $coursEdit['type_contenu'] == 'image') echo 'selected'; ?>>image</option>
-            <option value="document" <?php if (isset($coursEdit) && $coursEdit['type_contenu'] == 'document') echo 'selected'; ?>>document</option>
-          </select>
-        </div>
-        <div>
           <label for="content" class="block text-gray-700 font-semibold">Contenu</label>
-          <input type="file" name="content" value="<?php if (isset($coursEdit)) { echo $coursEdit['contenu']; } ?>" id="contenuVid" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400 ">
+          <textarea id="contenu" name="contenu" value=""><?php if (isset($coursEdit)) { echo $coursEdit['contenu']; } ?></textarea>
         </div>
         <div>
           <label for="tags" class="block text-gray-700 font-semibold">Tags</label>
-          <select name="tags[]" value="<?php if (isset($coursEdit)) { echo $coursEdit['tags']; } ?>" id="multi-select" multiple>
+          <select name="tags[]" id="multi-select" multiple>
             <?php
             $tags = $tag->displayTag();
-            $coursTags = isset($_GET['id_edit']) ? $cours->getTagsByCoursId($_GET['id_edit']) : [];
-            if (isset($_GET['id_edit'])) {
-              $coursTags = $cours->getTagsByCoursId($_GET['id_edit']);
-            } else {
-              $coursTags = [];
-            }
-            $coursTagsIds = array_column($coursTags, 'id_tag');
-            foreach ($tags as $tag) {
-              if (in_array($tag['id_tag'], $coursTagsIds)) {
-                $selected = 'selected';
-              } else {
-                $selected = '';
-              }
-              echo "<option value='$tag[id_tag]' $selected>$tag[nom]</option>";
-            }
             ?>
           </select>
         </div>
         <div>
           <label for="category" class="block text-gray-700 font-semibold">Catégorie</label>
           <select name="category" id="category" class="w-full border-2 border-purple-300 rounded-lg p-3 focus:ring focus:ring-purple-400">
-            <option value="<?php if (isset($coursEdit)) { echo $coursEdit['categorie_id']; } ?>" selected><?php if (isset($coursEdit)) { echo $coursEdit['categorie']; } else { echo "Sélectionnez une catégorie"; } ?></option>
+            
             <?php
             $categories = $categorie->displayCategorie();
             foreach ($categories as $categorie) {
@@ -167,10 +174,58 @@ if(isset($_GET['id_delete'])) {
   </div>
 
   <script>
-    new TomSelect('#multi-select', {
-      create: true,
-      plugins: ['remove_button'],
+    // new TomSelect('#multi-select', {
+    //   create: false,
+    //   plugins: ['remove_button'],
+    // });
+
+    new TomSelect("#multi-select", {
+          persist: false,
+          createOnBlur: true,
+          create: false,
+          plugins: ['remove_button'], 
+
+          options: [
+              <?php
+              if(isset($tags)){
+                foreach($tags as $tag){
+                  echo "{value: '{$tag['id_tag']}', text: '{$tag['nom']}'},";
+                }; 
+              }
+              ?>
+          ],
+
+          items: [
+            <?php    
+              if(isset($_GET['id_edit'])){              
+                foreach($tagsEdit as $tag){ echo "'$tag[id_tag]',"; }
+              }
+            ?>
+          ],
+          dropdown: {
+              position: 'below',
+              maxItems: 10
+          }
+      });
+
+  $(document).ready(function() {
+    $('#contenu').summernote({
+      placeholder: 'Écrivez ici...',
+      height: 200,
+      toolbar: [
+        ['style', ['style']],
+        ['font', ['bold', 'italic', 'underline']],
+        ['fontsize', ['fontsize']],
+        ['color', ['color']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['table', ['table']],
+        ['insert', ['link', 'picture', 'video']],
+        ['view', ['fullscreen', 'codeview', 'help']]
+      ],
+      styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+      fontNames: ['Helvetica', 'Arial', 'Courier New', 'Comic Sans MS'], // Police personnalisée
     });
+  });
   </script>
 </body>
 

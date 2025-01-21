@@ -1,17 +1,18 @@
 <?php
 class Cours{
+
     protected $titre;
     protected $description;
-    protected $typeContenu;
     protected $contenu;
     protected $categorieId;
     protected $pdo;
-    public function __construct($pdo, $titre, $description,$typeContenu, $contenu, $categorieId )
+
+
+    public function __construct($pdo, $titre, $description, $contenu, $categorieId )
     {
         $this->pdo = $pdo;
         $this->titre = $titre;
         $this->description = $description;
-        $this->typeContenu = $typeContenu;
         $this->contenu = $contenu;
         $this->categorieId = $categorieId;
     }
@@ -26,7 +27,9 @@ class Cours{
 
     public function getTagsByCoursId($coursId) {
         $stmt = $this->pdo->prepare("SELECT T.id_tag, T.nom FROM cours_tags CT JOIN tags T ON CT.tag_id = T.id_tag WHERE CT.cours_id = :cours_id");
-        $stmt->execute(['cours_id' => $coursId]);
+        $stmt->execute([
+            'cours_id' => $coursId
+        ]);
         return $stmt->fetchAll();
     }
 
@@ -100,8 +103,8 @@ class Cours{
     }
 
 
-    public function editCours($id, $titre, $description, $categorieId,$contenu){
-        $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titer, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
+    public function editCours($id, $titre, $description, $categorieId,  $contenu){
+        $stmt=$this->pdo->prepare("UPDATE cours SET titre = :titre, description = :description, categorie_id = :categorieId, contenu=:contenu WHERE cours_id = :cours_id");
         $stmt->execute([
             ':titre'=>$titre,
             ':description'=>$description,
@@ -112,6 +115,10 @@ class Cours{
     }
 
     public function DeleteCours($id){
+        $stmt=$this->pdo->prepare("DELETE FROM cours_tags WHERE cours_id = :cours_id");
+        $stmt->execute([
+            ':cours_id'=>$id
+        ]);
         $stmt=$this->pdo->prepare("DELETE FROM cours WHERE cours_id = :cours_id");
         $stmt->execute([
             ':cours_id'=>$id

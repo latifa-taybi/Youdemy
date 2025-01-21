@@ -17,6 +17,7 @@ class Tag{
         $stmt=$this->pdo->prepare("SELECT * FROM tags");
         $stmt->execute();
         return $stmt->fetchAll();
+        // return $tags['nom'];
     }
 
     public function getTagId($id_tag){
@@ -37,7 +38,6 @@ class Tag{
     public function displayTag(){
         $tags = $this->getTags();
         return $tags;
-
     }
 
     public function EditTag($id, $nom){

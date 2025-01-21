@@ -16,17 +16,7 @@ if(isset($_GET['page'])){
     $page = 1;
 }
 
-// echo $page;
-// $nbrs_pages = ceil($nb_total_cours['nb_total']/3);
 $offset = ($page - 1) * 3;
-// echo $offset;
-
-// $pagination=$cours->Pagination(3, $offset);
-// print_r($pagination);
-
-// $recherche = $cours->Recherche('vero');
-//     print_r($recherche);
-
 // -------------Recherche par mot clé-----------
 
 if(isset($_POST['recherche'])){
