@@ -1,5 +1,10 @@
 <?php
 include './header.php';
+include '../database/config.php';
+include '../classes/Cours.php';
+
+$cours = new Cours($pdo);
+
 ?>
 
 <main class="flex-1 p-8">
@@ -20,7 +25,32 @@ include './header.php';
                 </tr>
             </thead>
             <tbody>
-                
+            <?php
+
+                $cours->displayCours();
+                foreach($cours as $course){
+                    if($course['is_valide'] == 'Non validé'){
+                            $avtivation = 'Validé';
+                            $activationClass = 'bg-green-500';
+                        } else {
+                            $avtivation = 'Validé';
+                            $activationClass = 'bg-green-500';
+                        }
+                    
+                    echo "
+                        <tr class='border-t border-gray-200'>
+                            <td class='px-6 py-4'>$course[id]</td>
+                            <td class='px-6 py-4'>$course[nom]</td>
+                            <td class='px-6 py-4'>$course[email]</td>
+                            <td class='px-6 py-4'>
+                                <a href='../administrateur/toggleAcc.php?id=$course[id]'>
+                                <button class='$activationClass text-white px-2 py-1 rounded-full'>$avtivation</button>
+                                </a>
+                            </td>
+                        </tr>
+                        ";
+                }
+                ?>
             </tbody>
         </table>
     </div>

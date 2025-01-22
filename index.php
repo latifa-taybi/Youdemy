@@ -48,7 +48,7 @@ if(isset($_POST['recherche'])){
     <div class="container mx-auto px-6">
       <div class="flex justify-between items-center py-4">
         <!-- Logo -->
-        <a href="#" class="text-3xl font-bold text-blue-600 flex items-center space-x-2">
+        <a href="./index.php" class="text-3xl font-bold text-blue-600 flex items-center space-x-2">
           <i class="fas fa-book-open text-blue-700"></i>
           <span>Youdemy</span>
         </a>
@@ -119,11 +119,12 @@ if(isset($_POST['recherche'])){
                 <?php
                   foreach($coursPagination as $cours){
                     echo "<div class='bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg'>
+                    <img src='$cours[image]' alt='Course Image' class='w-full h-48 object-cover'>
                       <div class='p-6'>
                           <h3 class='text-xl font-semibold mb-2'>$cours[titre]</h3>
                           <p class='text-gray-600 mb-4'>$cours[description]</p>
                           <div class='flex items-center justify-between'>
-                              <a href='#' class='text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</a>
+                              <a href='./role.php' class='text-white bg-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-700'>S'inscrire</a>
                           </div>
                       </div>
                   </div>";
@@ -145,14 +146,12 @@ if(isset($_POST['recherche'])){
     ?>
   </ul>
 </nav>
- 
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6">
-        <div class="container mx-auto px-6 text-center">
-            <p class="text-sm">&copy; 2025 EduLearn. All rights reserved.</p>
-        </div>
-    </footer>
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+      <div class="container mx-auto px-6 text-center">
+          <p class="text-sm">&copy; 2025 EduLearn. All rights reserved.</p>
+      </div>
+  </footer>
 
   <!-- Scripts -->
   <script>

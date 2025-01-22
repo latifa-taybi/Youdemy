@@ -18,7 +18,7 @@ $etudiant= new Etudiant($pdo);
 $total_etudiant=$etudiant->countEtudiant();
 
 $categorie= new Categorie($pdo);
-$total_categorie=$categorie->countCategorie();
+$total_categorie=$categorie->countCategories();
 
 $tag= new Tag($pdo);
 $total_tag=$tag->countTag();

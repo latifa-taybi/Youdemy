@@ -1,10 +1,19 @@
 <?php
 require_once '../database/config.php';
-include '../classes/Categorie.php';
-include '../classes/Cours.php';
+require_once '../classes/Categorie.php';
+require_once '../classes/Cours.php';
+require_once '../auth/login.php';
+require_once '../classes/Etudiant.php';
 
 $categorie = new Categorie($pdo);
-$cours = new Cours($pdo, '', '','', '', '');
+$cours = new Cours($pdo);
+$etudiant = new Etudiant($pdo);
+$id_cours = $_GET['id'];
+$id_user = $_SESSION['user_id'];
+$etudiant->Inscription($id_user, $id_cours);
+
+$listeCoursInscrits = $etudiant->afficheInscription($id_user);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,8 +55,22 @@ $cours = new Cours($pdo, '', '','', '', '');
     <main class="container mx-auto px-6 py-12 space-y-16">
     <section id="mes-cours">
             <h3 class="text-3xl font-bold text-gray-800 mb-8">Mes Cours</h3>
-            <div class="bg-gray-100 border-l-4 border-indigo-600 shadow-md rounded-lg p-8">
-                <p class="text-gray-700 text-lg">Vous n'avez rejoint aucun cours pour le moment. Explorez le catalogue pour commencer votre apprentissage !</p>
+            <div class="bg-gray-100 border-l-4 border-indigo-600 shadow-md rounded-lg p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- <p class="text-gray-700 text-lg">Vous n'avez rejoint aucun cours pour le moment. Explorez le catalogue pour commencer votre apprentissage !</p> -->
+                <?php
+                foreach($listeCoursInscrits as $cours){
+                echo "<div class='bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-2 transition-transform'>
+                    <img src='$cours[image]' alt='Course Image' class='w-full h-48 object-cover'>
+                    <div class='p-6'>
+                        <h4 class='text-xl font-bold text-gray-800 mb-2'>$cours[titre]</h4>
+                        <p class='text-gray-600 mb-4'>$cours[description]</p>
+                        <div class='flex justify-between items-center'>
+                            <a href=detailsCours.php?id=$cours[cours_id]><button class='bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700'>Voir Détails</button></a>
+                        </div>
+                    </div>
+                </div>";
+                }
+            ?>
             </div>
         </section>
     </main>

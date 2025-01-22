@@ -1,15 +1,35 @@
 <?php
 class Tag{
     private $pdo;
+    private $id_tag;
+    private $nom;
 
-    public function __construct($pdo){
+    public function __construct($pdo, $id_tag = null, $nom = null){
         $this->pdo=$pdo;
+        $this->id_tag=$id_tag;
+        $this->nom=$nom;
     }
 
-    public function addTag($nom){
+    public function getIdTag(){
+        return $this->id_tag;
+    }
+
+    public function setIdTag($id_tag){
+        $this->id_tag = $id_tag;
+    }
+
+    public function getNom(){
+        return $this->nom;
+    }
+
+    public function setNom($nom){
+        $this->nom = $nom;
+    }
+
+    public function addTag(){
         $stmt=$this->pdo->prepare("INSERT INTO tags (nom)VALUES(:nom)");
         return $stmt->execute([
-            ':nom'=>$nom
+            ':nom'=>$this->nom
         ]);
     }
 
@@ -17,7 +37,6 @@ class Tag{
         $stmt=$this->pdo->prepare("SELECT * FROM tags");
         $stmt->execute();
         return $stmt->fetchAll();
-        // return $tags['nom'];
     }
 
     public function getTagId($id_tag){
@@ -54,7 +73,5 @@ class Tag{
             ':id_tag'=>$id
         ]);
     }
-
-
 }
 ?>

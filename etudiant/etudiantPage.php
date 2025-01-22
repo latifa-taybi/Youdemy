@@ -4,7 +4,7 @@ include '../classes/Categorie.php';
 include '../classes/Cours.php';
 
 $categorie = new Categorie($pdo);
-$cours = new Cours($pdo, '', '','', '', '');
+$cours = new Cours($pdo);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +27,7 @@ $cours = new Cours($pdo, '', '','', '', '');
             <nav class="space-x-6">
                 <a active href="etudiantPage.php" class="text-gray-600 hover:text-indigo-600 transition">Accueil</a>
                 <a href="InscriptionPage.php" class="text-gray-600 hover:text-indigo-600 transition">Mes Cours</a>
+                <a href="../auth/logout.php">Logout</a>
             </nav>
         </div>
     </header>
@@ -50,7 +51,7 @@ $cours = new Cours($pdo, '', '','', '', '');
             <h2 class="text-3xl font-bold text-center mb-10">Catégories populaires</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <?php
-                    $categories = $categorie->displayCategorie();
+                    $categories = $categorie->displayCategories();
                     foreach ($categories as $categorie) {
                         echo"
                         <div class='bg-white shadow-md rounded-lg p-6 text-center hover:shadow-lg'>
@@ -75,7 +76,7 @@ $cours = new Cours($pdo, '', '','', '', '');
                 $courses = $cours->displayCours();
                 foreach($courses as $cours){
                 echo "<div class='bg-white shadow-lg rounded-lg overflow-hidden transform hover:-translate-y-2 transition-transform'>
-                    <img src='' alt='Course Image' class='w-full h-48 object-cover'>
+                    <img src='$cours[image]' alt='Course Image' class='w-full h-48 object-cover'>
                     <div class='p-6'>
                         <h4 class='text-xl font-bold text-gray-800 mb-2'>$cours[titre]</h4>
                         <p class='text-gray-600 mb-4'>$cours[description]</p>

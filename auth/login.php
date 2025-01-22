@@ -2,38 +2,36 @@
 session_start();
 
 require_once '../database/config.php';
+include '../classes/Utilisateur.php';
 
 if(isset($_POST['login'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $db = new database();
-    $pdo = $db->getConn();
+    $utilisateur = new Utilisateur($pdo);
+    $user = $utilisateur->login($email);
 
-    $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE email=:email");
-    $stmt->execute([
-        ':email'=>$email
-    ]);
-    $utilisateur = $stmt->fetch();
-    if($utilisateur && password_verify($password, $utilisateur['mot_de_passe'] )){
-        $_SESSION['user_nom'] = $utilisateur['nom'];
-        $_SESSION['user_email'] = $utilisateur['email'];
-        $_SESSION['user_role'] = $utilisateur['role'];
-        $_SESSION['user_statut'] = $utilisateur['statut'];
-        if( $utilisateur['role']=='Etudiant' && $utilisateur['statut']=='Active'){
+    if($user && password_verify($password, $user['mot_de_passe'] )){
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_nom'] = $user['nom'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_role'] = $user['role'];
+        $_SESSION['user_statut'] = $user['statut'];
+        if( $user['role']=='Etudiant' && $user['statut']=='Active'){
             header('location: ../etudiant/etudiantPage.php');
-        }else if($utilisateur['role']=='Etudiant' && $utilisateur['statut']=='Desactivé'){
+        }else if($user['role']=='Etudiant' && $user['statut']=='Desactivé'){
             header('location: statutEtudiant.php');
-        }else if($utilisateur['role']=='Enseignant' && $utilisateur['statut']=='Pending'){
+        }else if($user['role']=='Enseignant' && $user['statut']=='Pending'){
             header('location: statutEnseignant.php');
-        }else if( $utilisateur['role']=='Enseignant' && $utilisateur['statut']=='Active'){
+        }else if( $user['role']=='Enseignant' && $user['statut']=='Active'){
             header('location: ../enseignant/enseignantPage.php');
-        }else if($utilisateur['role']=='Administrateur'){
+        }else if($user['role']=='Administrateur'){
             header('location: ../administrateur/admin.php');
         }
     }else{
         header('location: ./registrationPage.php');
     }
 }
+
 
 ?>

@@ -8,7 +8,9 @@ $categorie = new Categorie($pdo);
 if(isset($_POST['addCategory'])) {
     $nomCat = $_POST['categoryName'];
     $descCat = $_POST['categoryDescription'];
-    $categorie->addCategorie($nomCat, $descCat);
+    $categorie->setNom($nomCat);
+    $categorie->setDescription($descCat);
+    $categorie->addCategorie();
 }
 
 // --Modifier les Categories
@@ -88,7 +90,7 @@ if(isset($_GET['id_delete'])) {
         <ul id="categoryList" class="space-y-4">
             <!-- Les catégories seront ajoutées ici dynamiquement -->
             <?php
-            $categories=$categorie->displayCategorie();
+            $categories=$categorie->displayCategories();
             foreach($categories as $categorie){
                 echo"
                 <li class='flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-lg'>

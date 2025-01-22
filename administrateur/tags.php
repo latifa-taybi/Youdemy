@@ -7,7 +7,8 @@ $tag = new Tag($pdo);
 // --Ajouter des Tags
 if (isset($_POST['addTag'])) {
     $nomTag = $_POST['tagName'];
-    $tag->addTag($nomTag);
+    $tag->setNom($nomTag);
+    $tag->addTag();
 }
 // --Modifier les Tags
 if(isset($_GET['id_edit'])) {

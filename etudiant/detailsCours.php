@@ -1,66 +1,51 @@
 <?php
-include '../database/config.php';
-include '../classes/Cours.php';
+require_once '../database/config.php';
+include '../auth/login.php';
 include '../classes/Categorie.php';
+include '../classes/Cours.php';
 
 $categorie = new Categorie($pdo);
-$cours = new Cours($pdo, '', '','', '', '');
+$cours = new Cours($pdo);
 
 $Cours = $cours->getCoursDetails($_GET['id']);
 
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catalogue des Cours</title>
+    <title>Détails du Cours</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
-<div class="max-w-5xl mx-auto bg-gray-100 p-8 rounded-xl shadow-lg mt-10">
-  <h2 class="text-4xl font-extrabold text-purple-600 mb-8 text-center">Détails du Cours</h2>
-  
-  <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
-    <!-- Titre -->
-    <div class="flex items-center space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Titre :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php if(isset($Cours)){echo $Cours['titre'];} ?></p>
-    </div>
-    
-    <!-- Description -->
-    <div class="flex items-start space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Description :</h3>
-      <p class="text-gray-600 text-base flex-1 leading-relaxed"><?php if(isset($Cours)){echo $Cours['description'];}  ?></p>
-    </div>
-    
-    <!-- Type de Contenu -->
-    <div class="flex items-center space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Type de Contenu :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php if(isset($Cours)){echo $Cours['type_contenu'];}  ?></p>
-    </div>
-    
-    <!-- Contenu -->
-    <div class="flex items-center space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Contenu :</h3>
-      <a href="<?php if(isset($Cours)){echo $Cours['contenu'];}  ?>" class="text-purple-600 underline text-base flex-1">
-        <?php if(isset($coursEdit)){echo basename($coursEdit['contenu']);} ?>
-      </a>
-    </div>
-    
-    <!-- Catégorie -->
-    <div class="flex items-center space-x-4">
-      <h3 class="text-lg font-bold text-gray-700 w-1/3">Catégorie :</h3>
-      <p class="text-gray-600 text-base flex-1"><?php if(isset($coursEdit)){echo $coursEdit['categorie'];} ?></p>
-    </div>
-  </div>
+<body class="bg-gray-100 text-gray-900">
 
-  <!-- Boutons -->
-  <div class="mt-8 flex justify-between">
-    <a href="etudiantPage.php" 
-       class="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-gray-600 font-semibold transition duration-200">
-      Retour à la Liste
-    </a>
-  </div>
-</div>
+    <!-- Container for the course details -->
+    <div class="max-w-4xl mx-auto p-6">
+
+        <!-- Course Header -->
+        <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+            <h1 class="text-3xl font-bold text-center text-gray-800  mb-4"><?php if(isset($Cours)){echo $Cours['titre'];} ?></h1>
+            <div class="flex justify-center items-center mb-4">
+                <img src="<?php if(isset($Cours)){echo $Cours['image'];} ?>" alt="Image du cours" class="w-36 h-36 object-cover rounded-xl border-4 border-indigo-500 shadow-md mr-4">
+                <div>
+                    <p class="text-lg font-semibold">Formateur: <?php echo $Cours['id_user']?></p>
+                    <p class="text-gray-600">Catégorie: <?php if(isset($Cours)){echo $Cours['categorie'];} ?></p>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h2 class="text-2xl font-semibold mb-2">Description du Cours</h2>
+                <p class="text-gray-700"><?php if(isset($Cours)){echo $Cours['description'];} ?></p>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-semibold mb-2">Contenu du Cours</h2>
+                <p class="text-gray-700"><?php if(isset($Cours)){echo $Cours['contenu'];} ?></p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

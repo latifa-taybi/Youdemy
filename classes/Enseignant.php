@@ -15,5 +15,9 @@ class Enseignant extends Utilisateur{
     public function countEnseignant(){
         return $this->countUtilisateur('Enseignant');
     }
+
+    public function afficheName(){
+        return "Bienvenue Monsieur l'enseignant $this->nom()";
+    }
 }
 ?>
